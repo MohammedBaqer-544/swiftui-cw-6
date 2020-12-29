@@ -12,14 +12,15 @@ struct ContentView: View {
     @State var height: String = ""
     @State var weight: String = ""
     @State var bmi: String = ""
-    @State var bmiStatus: UIImage = UIImage(imageLiteralResourceName: "coco")
     @State var bmiFunny: String = ""
+    @State var funnyPhoto: String = "white"
+    @State var red:Color = Color.white
+    @State var red1:Color = Color.white
     
     var body: some View {
         VStack {
             Image("bg")
                 .resizable()
-                .frame(width: 420, height: 200.0)
                 .scaledToFit()
                 .ignoresSafeArea()
             
@@ -31,15 +32,25 @@ struct ContentView: View {
                 
                 Text("حاسبة الاحباط")
                     .font(.custom("(A) Arslan Wessam A (A) Arslan Wessam A", size: 70))
+                    .padding(.vertical, -20.0)
                 
                 TextField("Height", text: $height)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .background(self.red)
+                    //                    .textFieldStyle(RoundedBorderTextFieldStyle())
                     .font(.custom("AndikaNewBasic-Regular", size: 20))
                 
                 TextField("Weight", text: $weight)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .background(self.red1)
+                    //                    .textFieldStyle(RoundedBorderTextFieldStyle())
                     .font(.custom("AndikaNewBasic-Regular", size: 20))
                 
+                Spacer()
+                
+            }
+            .padding(.horizontal)
+            .padding(.vertical, -20.0)
+            
+            VStack {
                 Button("اصدمني") {
                     
                     let h = Double(height) ?? 0.0
@@ -47,36 +58,45 @@ struct ContentView: View {
                     
                     bmi = String(format: "%.1f", w / (h * h))
                     
+                    if Double(height) ?? 0.0 < 0.0 {
+                        self.red = Color.red
+                    } else {
+                        self.red = Color.white
+                    }
+                    
+                    if Double(weight) ?? 0.0 < 0.0 {
+                        self.red1 = Color.red
+                    } else {
+                        self.red1 = Color.white
+                    }
+                    
                     if Double(bmi) ?? 0.0 <= 20.0 {
-                        bmiStatus = UIImage(imageLiteralResourceName: "coco")
+                        
+                        funnyPhoto = "coco"
                         bmiFunny = "عود يدق العود"
                         
                     } else if Double(bmi) ?? 0.0 <= 25.0 {
-                        bmiStatus = UIImage(imageLiteralResourceName: "warrior")
                         
+                        funnyPhoto = "warrior"
                         bmiFunny = "كيتو ماستر"
                         
                     } else {
-                        bmiStatus = UIImage(imageLiteralResourceName: "elephant")
                         
+                        funnyPhoto = "elephant"
                         bmiFunny = "بو تمبة كسر اللمبة"
                         
                     }
                     
                 }
-                .padding(.bottom, 200)
+                .padding(.vertical, -60.0)
                 
-            }
-            .padding(.horizontal)
-            
-            VStack {
-            Image(uiImage: bmiStatus)
-                .resizable()
-                .scaledToFit()
-                .ignoresSafeArea()
-            
-            Text(bmiFunny)
-                .font(.custom("(A) Arslan Wessam A (A) Arslan Wessam A", size: 50))
+                Image("\(funnyPhoto)")
+                    .resizable()
+                    .scaledToFit()
+                
+                Text(bmiFunny)
+                    .font(.custom("(A) Arslan Wessam A (A) Arslan Wessam A", size: 50))
+                
             }
             
         }
