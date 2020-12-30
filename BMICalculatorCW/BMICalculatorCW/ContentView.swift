@@ -58,13 +58,13 @@ struct ContentView: View {
                     
                     bmi = String(format: "%.1f", w / (h * h))
                     
-                    if Double(height) ?? 0.0 < 0.0 {
+                    if h < 0.0 {
                         self.red = Color.red
                     } else {
                         self.red = Color.white
                     }
                     
-                    if Double(weight) ?? 0.0 < 0.0 {
+                    if w < 0.0 {
                         self.red1 = Color.red
                     } else {
                         self.red1 = Color.white
@@ -88,6 +88,8 @@ struct ContentView: View {
                     }
                     
                 }
+                .disabled(self.height.isEmpty)
+                .disabled(self.weight.isEmpty)
                 .padding(.vertical, -60.0)
                 
                 Image("\(funnyPhoto)")
